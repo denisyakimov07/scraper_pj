@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+
+import django_heroku
+from decouple import config
+
+from environment import get_env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'scraper_pj.urls'
@@ -76,8 +83,13 @@ WSGI_APPLICATION = 'scraper_pj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': f'django.db.backends.{get_env().DB_DATABASE_TYPE}',
+        'NAME': get_env().DB_DATABASE,
+        'USER': get_env().DB_USER,
+        'PASSWORD': get_env().DB_PASSWORD,
+        'HOST': get_env().DB_HOST,
+        'PORT': get_env().DB_PORT,
+        'OPTIONS': {'sql_mode': 'traditional'},
     }
 }
 
@@ -106,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "America/New_York"
 
 USE_I18N = True
 
@@ -124,3 +136,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+django_heroku.settings(locals())
