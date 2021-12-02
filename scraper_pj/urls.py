@@ -17,7 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from environment import get_env
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
-
+print(f'django.db.backends.{get_env().DB_DATABASE_TYPE}',)
+print(get_env().DB_DATABASE)
+print(get_env().DB_USE)
+print(get_env().DB_PASSWORD)
+print(get_env().DB_HOST)
+print(get_env().DB_PORT)
