@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from parser_pj.models import QSENews, QSENewsAR
+from parser_pj.models import QSENews, QSENewsAR, TradingReport
+
 
 class QSENewsAdmin(admin.ModelAdmin):
     list_display = ("company_title", "news_title", "news_body", "news_url", "news_date")
@@ -52,3 +53,4 @@ class TradingReportAdmin(admin.ModelAdmin):
 
 admin.site.register(QSENews, QSENewsAdmin)
 admin.site.register(QSENewsAR, QSENewsARAdmin)
+admin.site.register(TradingReport, TradingReportAdmin)
