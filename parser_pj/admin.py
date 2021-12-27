@@ -45,6 +45,9 @@ class QSENewsARAdmin(admin.ModelAdmin):
     def news_date(self, obj):
         return obj.news_date
 
+class TradingReportAdmin(admin.ModelAdmin):
+    list_display = ("company_title", "company_name", "buy_volume", "sell_volume", "report_data")
+
 
 
 admin.site.register(QSENews, QSENewsAdmin)
